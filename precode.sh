@@ -6,38 +6,53 @@
 #   dir2
 #   dir3
 #       dir4
+mkdir -p task/dir1 task/dir2 task/dir3/dir4
+# Изменяем текущую директорию на task
+cd task
 
-# изменяем текущую директорию на task
+# Создаем пустой файл task/dir2/empty
+touch dir2/empty
 
-# создаём пустой файл task/dir2/empty
+# Создаем файл task/dir2/hello.sh с указанным содержанием
+touch ./dir2/hello.sh
+echo "#!/bin/bash
+echo "$1, привет!"" > ./hello.sh
 
-# создаём файл task/dir2/hello.sh с таким содержанием:
-# #!/bin/bash
-# echo "$1, привет!"
+# Устанавливаем права на файл hello.sh
+chmod 764 dir2/hello.sh
 
-# устанавливаем для task/dir2/hello.sh права rwxrw-r--
+# Сохраняем список файлов task/dir2 в task/dir2/list.txt
+ls dir2 > dir2/list.txt
 
-# сохраняем список файлов task/dir2 в task/dir2/list.txt
+# Копируем содержимое каталога task/dir2 в каталог task/dir3/dir4
+cp -r dir2/* dir3/dir4/
 
-# копируем содержимое каталога task/dir2 в каталог task/dir3/dir4
-
-# записываем в task/dir1/summary.txt список файлов с расширением *.txt
+# Записываем в task/dir1/summary.txt список файлов с расширением *.txt
 # находящихся в task, включая поддиректории
+find -name "*.txt" > dir1/summary.txt
 
-# дописываем в task/dir1/summary.txt содержимое task/dir2/list.txt
+# Дописываем в task/dir1/summary.txt содержимое task/dir2/list.txt
+cat dir2/list.txt >> dir1/summary.txt
 
-# определяем переменную окружения NAME со значением "Всем студентам"
+# Определяем переменную окружения NAME со значением "Всем студентам"
+export NAME="Всем студентам"
 
-# запускаем task/dir2/hello.sh с переменной окружения NAME в качестве аргумента
-# вывод скрипта должен дописаться в файл task/dir1/summary.txt
+# Запускаем task/dir2/hello.sh с переменной окружения NAME в качестве аргумента
+# И выводим результат в task/dir1/summary.txt
+./dir2/hello.sh "$NAME" >> dir1/summary.txt
 
-# перемещаем с переименованием task/dir1/summary.txt в task/Практическое задание
+# Перемещаем с переименованием task/dir1/summary.txt в task/Практическое задание
+mv dir1/summary.txt "Практическое задание"
 
-# выводим на консоль содержимое файла task/Практическое задание
+# Выводим на консоль содержимое файла task/Практическое задание
+cat "Практическое задание"
 
-# ищем в файле "Практическое задание" строки, которые содержат слово "dir"
-# и затем отсортировываем их
+# Ищем в файле "Практическое задание" строки, которые содержат слово "dir"
+# и затем отсортируем их
+grep "dir" "Практическое задание" | sort
 
-# меняем текущую директорию на родительскую для task
+# Меняем текущую директорию на родительскую для task
+cd ..
+# Удаляем директорию task со всем содержимым
+rm -rf task
 
-# удаляем директорию task со всем содержимым
